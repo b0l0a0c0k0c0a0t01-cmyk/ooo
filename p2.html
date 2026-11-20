@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الصور</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0d0d0f;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #ff6b00;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: #18181c;
+            border: 1px solid #2a2a30;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #ff6b00;
+        }
+
+        .card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-caption {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        /* Back Button */
+        .back-btn {
+            margin-top: 40px;
+            padding: 12px 28px;
+            background: transparent;
+            color: #ff6b00;
+            border: 2px solid #ff6b00;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #ff6b00;
+            color: #0d0d0f;
+        }
+
+        /* Lightbox Modal for Full View */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 10px;
+            border: 2px solid #ff6b00;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>محتوى الهدية</h1>
+        <p>اضغط على أي صورة لتكبيرها</p>
+    </header>
+
+    <div class="gallery">
+        <!-- Image 1 -->
+        <div class="card" onclick="openModal('img1.jpg')">
+            <img src="img1.jpg" alt="الصورة الأولى">
+            <div class="card-caption">الصورة 1</div>
+        </div>
+
+        <!-- Image 2 -->
+        <div class="card" onclick="openModal('img2.jpg')">
+            <img src="img2.jpg" alt="الصورة الثانية">
+            <div class="card-caption">الصورة 2</div>
+        </div>
+
+        <!-- Image 3 -->
+        <div class="card" onclick="openModal('img3.jpg')">
+            <img src="img3.jpg" alt="الصورة الثالثة">
+            <div class="card-caption">الصورة 3</div>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-btn">العودة للهدية</a>
+
+    <!-- Fullscreen Image Preview -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="معاينة الصورة">
+    </div>
+
+    <script>
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = src;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
 
