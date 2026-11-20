@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض الصور</title>
+    <title>معرض الذكريات والحب</title>
     <style>
         * {
             margin: 0;
@@ -14,12 +14,55 @@
 
         body {
             min-height: 100vh;
-            background: #0d0d0f;
+            /* Romantic dark crimson & rose radial background */
+            background: radial-gradient(circle at top, #4a0e24 0%, #240712 55%, #0f0308 100%);
             color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating Hearts Background Container */
+        .hearts-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 77, 121, 0.25);
+            user-select: none;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+            }
+            80% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.2) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* Ensure main content stays above floating hearts */
+        header, .gallery, .back-btn {
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -28,14 +71,15 @@
         }
 
         header h1 {
-            color: #ff6b00;
-            font-size: 2rem;
+            color: #ff4d79;
+            font-size: 2.2rem;
             margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(255, 77, 121, 0.5);
         }
 
         header p {
-            color: #999;
-            font-size: 0.95rem;
+            color: #f3c6d3;
+            font-size: 1rem;
         }
 
         /* Gallery Grid */
@@ -48,18 +92,20 @@
         }
 
         .card {
-            background: #18181c;
-            border: 1px solid #2a2a30;
-            border-radius: 12px;
+            background: rgba(35, 10, 20, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 77, 121, 0.3);
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
 
         .card:hover {
             transform: translateY(-6px);
-            border-color: #ff6b00;
+            border-color: #ff4d79;
+            box-shadow: 0 15px 35px rgba(255, 77, 121, 0.25);
         }
 
         .card img {
@@ -78,16 +124,16 @@
             padding: 15px;
             text-align: center;
             font-weight: 600;
-            color: #e0e0e0;
+            color: #ffd6e0;
         }
 
         /* Back Button */
         .back-btn {
             margin-top: 40px;
             padding: 12px 28px;
-            background: transparent;
-            color: #ff6b00;
-            border: 2px solid #ff6b00;
+            background: rgba(255, 77, 121, 0.1);
+            color: #ff4d79;
+            border: 2px solid #ff4d79;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
@@ -95,8 +141,9 @@
         }
 
         .back-btn:hover {
-            background: #ff6b00;
-            color: #0d0d0f;
+            background: #ff4d79;
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 77, 121, 0.5);
         }
 
         /* Lightbox Modal for Full View */
@@ -104,7 +151,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(15, 3, 8, 0.92);
             justify-content: center;
             align-items: center;
             z-index: 100;
@@ -114,15 +161,19 @@
         .modal img {
             max-width: 90%;
             max-height: 85vh;
-            border-radius: 10px;
-            border: 2px solid #ff6b00;
+            border-radius: 12px;
+            border: 2px solid #ff4d79;
+            box-shadow: 0 0 30px rgba(255, 77, 121, 0.4);
         }
     </style>
 </head>
 <body>
 
+    <!-- Animated Floating Hearts Background -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
     <header>
-        <h1>محتوى الهدية</h1>
+        <h1>كل الحب لك ❤️</h1>
         <p>اضغط على أي صورة لتكبيرها</p>
     </header>
 
@@ -130,19 +181,19 @@
         <!-- Image 1 -->
         <div class="card" onclick="openModal('img1.jpg')">
             <img src="IMG-20261120-WA0005.jpg" alt="الصورة الأولى">
-            <div class="card-caption">الصورة 1</div>
+            <div class="card-caption">الذكرى الأولى ♥</div>
         </div>
 
         <!-- Image 2 -->
         <div class="card" onclick="openModal('img2.jpg')">
             <img src="IMG-20261120-WA0007.jpg" alt="الصورة الثانية">
-            <div class="card-caption">الصورة 2</div>
+            <div class="card-caption">الذكرى الثانية ♥</div>
         </div>
 
         <!-- Image 3 -->
         <div class="card" onclick="openModal('img3.jpg')">
             <img src="IMG-20261120-WA0009.jpg" alt="الصورة الثالثة">
-            <div class="card-caption">الصورة 3</div>
+            <div class="card-caption">الذكرى الثالثة ♥</div>
         </div>
     </div>
 
@@ -150,10 +201,37 @@
 
     <!-- Fullscreen Image Preview -->
     <div class="modal" id="imageModal" onclick="closeModal()">
-        <img id="modalImg" src="IMG-20261120-WA0007.jpg" alt="معاينة الصورة">
+        <img id="modalImg" src="" alt="معاينة الصورة">
     </div>
 
     <script>
+        // Generate continuous floating hearts in the background
+        const heartsBg = document.getElementById('heartsBg');
+        const heartSymbols = ['❤', '♥', '💕'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            
+            // Randomize horizontal position, size, and animation speed
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 14) + 'px';
+            const duration = Math.random() * 6 + 6; // 6s to 12s
+            heart.style.animationDuration = duration + 's';
+            
+            heartsBg.appendChild(heart);
+
+            // Clean up DOM element after animation ends
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Spawn a new heart every 450ms
+        setInterval(createHeart, 450);
+
+        // Lightbox Modal Functions
         function openModal(src) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
@@ -168,4 +246,3 @@
 
 </body>
 </html>
-
