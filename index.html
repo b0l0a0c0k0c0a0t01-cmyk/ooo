@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مفاجأة لك!</title>
+    <title>هدية خاصة لـ يُسرية</title>
     <style>
         * {
             margin: 0;
@@ -18,17 +18,65 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #1a1a1d, #0d0d0f);
+            /* Matching romantic crimson & rose background */
+            background: radial-gradient(circle at top, #4a0e24 0%, #240712 55%, #0f0308 100%);
             color: #ffffff;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Background Container */
+        .hearts-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 77, 121, 0.25);
+            user-select: none;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+            }
+            80% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.2) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* Keep interactive elements above floating hearts */
+        .title, .gift-container, .hint {
+            position: relative;
+            z-index: 1;
         }
 
         .title {
             margin-bottom: 50px;
-            font-size: 1.8rem;
-            color: #ff6b00;
-            text-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+            font-size: 2rem;
+            color: #ff4d79;
+            text-align: center;
+            padding: 0 15px;
+            text-shadow: 0 0 20px rgba(255, 77, 121, 0.5);
             animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .title span {
+            color: #ffd6e0;
         }
 
         /* Gift Container */
@@ -52,9 +100,9 @@
             left: -10px;
             width: 180px;
             height: 40px;
-            background: linear-gradient(135deg, #ff7b00, #d94e00);
+            background: linear-gradient(135deg, #ff4d79, #b81d46);
             border-radius: 6px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
             z-index: 2;
             transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease;
         }
@@ -67,7 +115,7 @@
             transform: translateX(-50%);
             width: 30px;
             height: 100%;
-            background: #ffd700;
+            background: #ffd6e0;
         }
 
         /* Gift Bow */
@@ -76,7 +124,7 @@
             top: -25px;
             width: 35px;
             height: 25px;
-            border: 6px solid #ffd700;
+            border: 6px solid #ffd6e0;
             border-radius: 50% 50% 0 50%;
         }
 
@@ -97,9 +145,9 @@
             bottom: 0;
             width: 160px;
             height: 120px;
-            background: linear-gradient(135deg, #ff5500, #b33600);
+            background: linear-gradient(135deg, #e02454, #7a0c28);
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 15px 30px rgba(255, 85, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(255, 77, 121, 0.3);
         }
 
         /* Ribbon on Body */
@@ -110,13 +158,13 @@
             transform: translateX(-50%);
             width: 30px;
             height: 100%;
-            background: #ffd700;
+            background: #ffd6e0;
         }
 
         .hint {
             margin-top: 35px;
             font-size: 1rem;
-            color: #aaa;
+            color: #f3c6d3;
             letter-spacing: 0.5px;
         }
 
@@ -139,7 +187,10 @@
 </head>
 <body>
 
-    <h1 class="title">لديك هدية خاصة!</h1>
+    <!-- Animated Floating Hearts Background -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <h1 class="title">هدية خاصة لـ <span>يُسرية</span> ❤️</h1>
 
     <div class="gift-container" id="giftBox" onclick="openGift()">
         <div class="gift-lid">
@@ -149,14 +200,37 @@
         <div class="gift-box"></div>
     </div>
 
-    <p class="hint">اضغط على الهدية لفتحها</p>
+    <p class="hint">اضغطي على الهدية لفتحها يا يُسرية</p>
 
     <script>
+        // Generate continuous floating hearts in the background
+        const heartsBg = document.getElementById('heartsBg');
+        const heartSymbols = ['❤', '♥', '💕'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 14) + 'px';
+            const duration = Math.random() * 6 + 6;
+            heart.style.animationDuration = duration + 's';
+
+            heartsBg.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createHeart, 450);
+
+        // Gift Opening & Redirect to p2.html
         function openGift() {
             const gift = document.getElementById('giftBox');
             gift.classList.add('open');
-            
-            // Wait 650ms for the lid animation to finish, then redirect to p2.html
+
             setTimeout(() => {
                 window.location.href = 'p2.html';
             }, 650);
@@ -165,4 +239,3 @@
 
 </body>
 </html>
-
