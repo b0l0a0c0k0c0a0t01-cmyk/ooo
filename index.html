@@ -1,1 +1,168 @@
-Hi
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفاجأة لك!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #1a1a1d, #0d0d0f);
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .title {
+            margin-bottom: 50px;
+            font-size: 1.8rem;
+            color: #ff6b00;
+            text-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Gift Container */
+        .gift-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            cursor: pointer;
+            animation: float 2.5s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .gift-container:hover {
+            transform: scale(1.08);
+        }
+
+        /* Gift Box Lid */
+        .gift-lid {
+            position: absolute;
+            top: 0;
+            left: -10px;
+            width: 180px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff7b00, #d94e00);
+            border-radius: 6px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease;
+        }
+
+        /* Ribbon on Lid */
+        .gift-lid::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 100%;
+            background: #ffd700;
+        }
+
+        /* Gift Bow */
+        .bow-left, .bow-right {
+            position: absolute;
+            top: -25px;
+            width: 35px;
+            height: 25px;
+            border: 6px solid #ffd700;
+            border-radius: 50% 50% 0 50%;
+        }
+
+        .bow-left {
+            left: 52px;
+            transform: rotate(-15deg);
+        }
+
+        .bow-right {
+            right: 52px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(15deg);
+        }
+
+        /* Gift Box Body */
+        .gift-box {
+            position: absolute;
+            bottom: 0;
+            width: 160px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff5500, #b33600);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 15px 30px rgba(255, 85, 0, 0.3);
+        }
+
+        /* Ribbon on Body */
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 100%;
+            background: #ffd700;
+        }
+
+        .hint {
+            margin-top: 35px;
+            font-size: 1rem;
+            color: #aaa;
+            letter-spacing: 0.5px;
+        }
+
+        /* Opening Animation Class */
+        .gift-container.open .gift-lid {
+            transform: translateY(-70px) rotate(-15deg);
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="title">لديك هدية خاصة!</h1>
+
+    <div class="gift-container" id="giftBox" onclick="openGift()">
+        <div class="gift-lid">
+            <div class="bow-left"></div>
+            <div class="bow-right"></div>
+        </div>
+        <div class="gift-box"></div>
+    </div>
+
+    <p class="hint">اضغط على الهدية لفتحها</p>
+
+    <script>
+        function openGift() {
+            const gift = document.getElementById('giftBox');
+            gift.classList.add('open');
+            
+            // Wait 650ms for the lid animation to finish, then redirect to p2.html
+            setTimeout(() => {
+                window.location.href = 'p2.html';
+            }, 650);
+        }
+    </script>
+
+</body>
+</html>
+
